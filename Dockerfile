@@ -18,4 +18,4 @@ ADD nginx /etc/nginx/conf.d
 EXPOSE 80
 
 # start nginx 
-CMD nginx -g "daemon off;" 
+CMD nginx -g "daemon off;"
