@@ -13,6 +13,10 @@ RUN rm /etc/nginx/conf.d/default.conf
 # replace with custom one
 ADD nginx /etc/nginx/conf.d
 
+WORKDIR /usr/local/bin
+
+COPY run-cerbot.sh .
+
 # --------- /only for those using react router ----------
 # expose port 80 to the outer world
 EXPOSE 80 443
