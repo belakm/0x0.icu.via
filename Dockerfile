@@ -10,13 +10,19 @@ FROM nginx:alpine
 # add certbot and grep
 RUN apk add certbot certbot-nginx grep
 
-# replace with custom one
-ADD nginx /usr/nginx-confs
+# remove default nginx configuration file
+RUN rm /etc/nginx/conf.d/default.conf
 
-COPY run-certbot.sh /usr/bin
+RUN mkdir -p /etc/letsencrypt/live/0x0.icu/
+
+COPY fake-cert/cert.pem /etc/letsencrypt/live/0x0.icu/fullchain.pem
+COPY fake-cert/key.pem /etc/letsencrypt/live/0x0.icu/privkey.pem
+
+# replace with custom one
+ADD nginx /etc/nginx/conf.d
 
 # --------- /only for those using react router ----------
 # expose port 80 to the outer world
 EXPOSE 80 443
 
-CMD ./usr/bin/run-certbot.sh
+CMD nginx -g "daemon off;"
