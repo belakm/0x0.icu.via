@@ -10,7 +10,8 @@ FROM nginx:alpine
 # add certbot and grep
 RUN apk add certbot certbot-nginx grep
 
-COPY nginx /usr/bin
+WORKDIR /usr/local/bin/
+COPY nginx nginx/
 
 # --------- /only for those using react router ----------
 # expose port 80 to the outer world
