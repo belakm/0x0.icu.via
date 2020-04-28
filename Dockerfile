@@ -7,17 +7,16 @@
 # e.g inside nginx container
 FROM nginx:alpine
 
-# remove default nginx configuration file
-RUN rm /etc/nginx/conf.d/default.conf
+# add certbot and grep
+RUN apk add certbot certbot-nginx grep
 
 # replace with custom one
-ADD nginx /etc/nginx/conf.d
+ADD nginx /usr/nginx-confs
 
-COPY run-certbot.sh /usr/local/bin
+COPY run-certbot.sh /usr/bin
 
 # --------- /only for those using react router ----------
 # expose port 80 to the outer world
 EXPOSE 80 443
 
-# start nginx 
-CMD ./usr/local/bin/run-certbot.sh
+CMD ./usr/bin/run-certbot.sh
