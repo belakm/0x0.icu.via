@@ -1,7 +1,7 @@
 nginx -g "daemon off;"
 
 # add certbot
-apk add certbot certbot-proxy
+apk add certbot certbot-proxy grep
 
 # set up cert
 sudo certbot certonly --nginx 0x0.icu -d 0x0.icu,www.0x0.icu
