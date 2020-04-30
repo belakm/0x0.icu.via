@@ -10,8 +10,8 @@ Reverse proxy for 0x0.icu stack using nginx.
 
 Run ´/usr/local/bin/nginx/set-nginx.sh´ to run a script that will 
 
-- 1. acquire a letsencrypt certificate
-- 2. copy over nginx configurations in /nginx folder
+1. acquire a letsencrypt certificate
+2. copy over nginx configurations in /nginx folder
 
 ### 3. Restart nginx or container
 
