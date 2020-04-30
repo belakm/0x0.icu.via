@@ -1,11 +1,18 @@
 # 0x0.icu.via
 
-Load balancer for 0x0.icu stack
+Reverse proxy for 0x0.icu stack using nginx.
 
-# Usage
+## Usage
 
-## Run certbot
-certbot certonly --nginx -d 0x0.icu -m admin@0x0.icu
+### 1. Deploy via Docker
 
-## Set up cron
-echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 3600)' && certbot renew -q" | sudo tee -a /etc/crontab > /dev/null
+### 2. Set nginx configurations and get a letsencrypt cert for https
+
+Run ´/usr/local/bin/nginx/set-nginx.sh´ to run a script that will 
+
+- 1. acquire a letsencrypt certificate
+- 2. copy over nginx configurations in /nginx folder
+
+### 3. Restart nginx or container
+
+for new nginx configuration to take effect.
