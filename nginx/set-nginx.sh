@@ -12,4 +12,5 @@ cp /usr/local/bin/nginx/nginx.conf /etc/nginx/conf.d/
 # remove default config
 rm /etc/nginx/conf.d/default.conf
 
-echo "\n\n Please restart nginx or this container."
+echo ""
+echo "Please restart nginx or this container."
