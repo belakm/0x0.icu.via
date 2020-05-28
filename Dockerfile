@@ -7,9 +7,6 @@
 # e.g inside nginx container
 FROM nginx:alpine
 
-# add certbot
-RUN apt-get update && apt-get install -y certbot python-certbot-nginx
-
 # copy script to usr local bin
 WORKDIR /usr/local/bin/
 COPY nginx nginx/
