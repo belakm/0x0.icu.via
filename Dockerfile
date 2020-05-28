@@ -5,7 +5,7 @@
 # these are what will be served by nginx
 # use alias build to be easier to refer this container elsewhere
 # e.g inside nginx container
-FROM nginx:stable
+FROM nginx:alpine
 
 # add certbot
 RUN apt-get update && apt-get install -y certbot python-certbot-nginx
