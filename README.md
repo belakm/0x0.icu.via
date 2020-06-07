@@ -1,9 +1,8 @@
-# 0x0.icu.tabularium
-Postgresql DB setup for 0x0.icu stack
+# 0x0.icu.via
 
-Includes PostgreSQL and pgAdmin4
+Reverse proxy setup.
 
-# Environment
+## Environment
 
 RancherOS
   |
@@ -14,21 +13,21 @@ RancherOS
   .
   -- your other services on a network
 
-# Usage
+## Usage
 
-## 1. Switch to alpine console
+### 1. Switch to alpine console
 
 ```shell
 sudo ros console switch alpine
 ```
 
-## 2. Install git and certbot
+### 2. Install git and certbot
 
 ```shell
 $ sudo apk add git certbot
 ```
 
-## 3. Clone 0x0.icu.via to `~`, copy pre-certbot config and create paths
+### 3. Clone 0x0.icu.via to `~`, copy pre-certbot config and create paths
 
 ```shell
 git clone https://github.com/belakm/0x0.icu.via.git
@@ -38,7 +37,7 @@ $ sudo mkdir /var/nginx/conf
 $ sudo mkdir /var/nginx/html
 ```
 
-## 4. Create `nginx-net` docker network and run nginx
+### 4. Create `nginx-net` docker network and run nginx
 
 ```shell
 $ docker network create nginx-net
@@ -54,7 +53,7 @@ $ docker run -d \
   nginx
 ```
 
-## 5. Run certbot
+### 5. Run certbot
 
 ```shell
 $ sudo certbot certonly \
@@ -63,13 +62,13 @@ $ sudo certbot certonly \
   -d example.org
 ```
 
-## 6. Certs are now available so set a cronjob for auto-renewal
+### 6. Certs are now available so set a cronjob for auto-renewal
 
 ```shell
 $ echo '0 0,12 * * * certbot renew --post-hook "nginx -s reload"' > /etc/crontabs/root
 ```
 
-## 7. prepare your routes in `~/0x0.icu.via/post-certbot/`
+### 7. prepare your routes in `~/0x0.icu.via/post-certbot/`
 
 **Containers that run on the same docker network (`nginx-net`) are now reachable in nginx config via:**
 
@@ -79,7 +78,7 @@ upstream {
 }
 ```
 
-## 8. remove old config, copy new config and restart nginx
+### 8. remove old config, copy new config and restart nginx
 
 ```shell
 $ sudo rm -rf /var/nginx/conf/*
