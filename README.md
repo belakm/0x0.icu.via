@@ -1,18 +1,87 @@
-# 0x0.icu.via
+# 0x0.icu.tabularium
+Postgresql DB setup for 0x0.icu stack
 
-Reverse proxy for 0x0.icu stack using nginx.
+Includes PostgreSQL and pgAdmin4
 
-## Usage
+# Environment
 
-### 1. Deploy via Docker
+RancherOS
+  |
+  -- dockerized nginx on a network
+  -- certbot (and autorenewal)
+  .
+  .
+  .
+  -- your other services on a network
 
-### 2. Set nginx configurations and get a letsencrypt cert for https
+# Usage
 
-Run ´/usr/local/bin/nginx/set-nginx.sh´ to run a script that will 
+## 1. Switch to alpine console
 
-1. acquire a letsencrypt certificate
-2. copy over nginx configurations in /nginx folder
+```shell
+sudo ros console switch alpine
+```
 
-### 3. Restart nginx or container
+## 2. Install git and certbot
 
-for new nginx configuration to take effect.
+```shell
+$ sudo apk add git certbot
+```
+
+## 3. Clone 0x0.icu.via to `~`, copy pre-certbot config and create paths
+
+```shell
+git clone https://github.com/belakm/0x0.icu.via.git
+$ sudo cp -r ~/0x0.icu.via/pre-certbot/. /var/nginx/conf
+$ sudo mkdir /var/nginx
+$ sudo mkdir /var/nginx/conf
+$ sudo mkdir /var/nginx/html
+```
+
+## 4. Create `nginx-net` docker network and run nginx
+
+```shell
+$ docker network create nginx-net
+$ docker run -d \
+  --name nginx \
+  --restart unless-stopped \
+  --network=nginx-net \
+  -p 80:80 \
+  -p 443:443 \
+  -v /var/nginx/conf:/etc/nginx/conf.d:ro \
+  -v /var/nginx/html:/usr/share/nginx/html \
+  -v /etc/letsencrypt:/etc/letsencrypt:ro \
+  nginx
+```
+
+## 5. Run certbot
+
+```shell
+$ sudo certbot certonly \
+  --webroot \
+  -w /var/nginx/html \
+  -d example.org
+```
+
+## 6. Certs are now available so set a cronjob for auto-renewal
+
+´´´shell
+$ echo '0 0,12 * * * certbot renew --post-hook "nginx -s reload"' > /etc/crontabs/root
+´´´
+
+## 7. prepare your routes in `~/0x0.icu.via/post-certbot/`
+
+**Containers that run on the same docker network (`nginx-net`) are now reachable in nginx config via:**
+
+```nginx
+upstream {
+  server name_of_your_container;
+}
+```
+
+## 8. copy config and restart nginx
+
+```shell
+$ sudo cp -r ~/0x0.icu.via/post-certbot/. /var/nginx/conf
+$ docker container restart nginx
+```
