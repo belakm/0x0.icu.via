@@ -4,14 +4,16 @@ Reverse proxy setup.
 
 ## Environment
 
+```
 RancherOS
   |
-  -- dockerized nginx on a network
-  -- certbot (and autorenewal)
+  |--- dockerized nginx on a network
+  |--- certbot (and autorenewal)
   .
   .
   .
-  -- your other services on a network
+  |--- your other services on the network
+```
 
 ## Usage
 
