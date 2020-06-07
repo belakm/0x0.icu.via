@@ -79,9 +79,10 @@ upstream {
 }
 ```
 
-## 8. copy config and restart nginx
+## 8. remove old config, copy new config and restart nginx
 
 ```shell
+$ sudo rm -rf /var/nginx/conf/*
 $ sudo cp -r ~/0x0.icu.via/post-certbot/. /var/nginx/conf
 $ docker container restart nginx
 ```
