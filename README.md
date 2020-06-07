@@ -65,9 +65,9 @@ $ sudo certbot certonly \
 
 ## 6. Certs are now available so set a cronjob for auto-renewal
 
-´´´shell
+```shell
 $ echo '0 0,12 * * * certbot renew --post-hook "nginx -s reload"' > /etc/crontabs/root
-´´´
+```
 
 ## 7. prepare your routes in `~/0x0.icu.via/post-certbot/`
 
